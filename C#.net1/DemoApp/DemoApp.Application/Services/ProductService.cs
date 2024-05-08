@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Products
 {
-    public class ProductService : IProductService
+	public class ProductService : IProductService
 	{
 		private readonly IGenericRepository<Product, Guid> _productRepository;
 		private readonly IGenericRepository<Category, Guid> _categoryRepository;
@@ -58,16 +58,16 @@ namespace Application.Products
 				result = result.Where(s => s.Price >= filter.FromPrice.Value);
 			}
 
-			if (filter.ToPrice.HasValue )
+			if (filter.ToPrice.HasValue)
 			{
 				result = result.Where(s => s.Price <= filter.ToPrice.Value);
 			}
-			
+
 
 			if (!string.IsNullOrEmpty(filter.KeyWord))
 			{
-				result = result.Where(s => s.ProductName.Contains(filter.KeyWord) 
-				                      || s.CategoryName.Contains(filter.KeyWord));
+				result = result.Where(s => s.ProductName.Contains(filter.KeyWord)
+									  || s.CategoryName.Contains(filter.KeyWord));
 			}
 			if (filter.SortBy.Equals(SortEnum.Price))
 			{
@@ -106,7 +106,7 @@ namespace Application.Products
 			return data;
 		}
 
-		public async Task< ProductDetailViewModel> GetProductDetail(Guid productId)
+		public async Task<ProductDetailViewModel> GetProductDetail(Guid productId)
 		{
 			var product = await _productRepository.FindById(productId);
 			if (product == null)
@@ -163,7 +163,7 @@ namespace Application.Products
 			return result.ToList();
 		}
 
-       
 
-    }
+
+	}
 }

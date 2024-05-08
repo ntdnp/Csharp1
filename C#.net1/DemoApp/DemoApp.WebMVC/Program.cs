@@ -1,5 +1,6 @@
 using DemoApp.Domain.Abstractions;
 using DemoApp.Persistence;
+using DemoApp.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,13 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddRepositoryUnitOfWork();
 builder.Services.AddEfCore(builder.Configuration);
+builder.Services.AddApplicationServices();
 
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromHours(1);
+	options.Cookie.HttpOnly = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +29,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//use middleware for session
+app.UseSession();
 
 app.UseRouting();
 
