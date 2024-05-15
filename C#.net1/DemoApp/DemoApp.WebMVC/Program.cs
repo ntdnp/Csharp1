@@ -1,6 +1,7 @@
 using DemoApp.Domain.Abstractions;
 using DemoApp.Persistence;
 using DemoApp.Application;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,16 @@ builder.Services.AddSession(options =>
 	options.IdleTimeout = TimeSpan.FromHours(1);
 	options.Cookie.HttpOnly = true;
 });
+
+builder.Services.AddCustomIdentity();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(option =>
+				{
+					option.LoginPath = "/account/login";
+					option.AccessDeniedPath = "/Account/AccessDenied";
+					option.Cookie.HttpOnly = true;
+					option.Cookie.Expiration = TimeSpan.FromHours(1);
+				});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +45,8 @@ app.UseSession();
 
 app.UseRouting();
 
+//Authen luon dung truoc author
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
