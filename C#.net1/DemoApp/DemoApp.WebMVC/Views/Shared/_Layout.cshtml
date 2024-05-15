@@ -97,8 +97,7 @@
 							</div>
 							<!-- /Wishlist -->
 							<!-- Cart -->
-							<div class="dropdown">
-						@await Html.PartialAsync("~/Views/Shared/CartPartial.cshtml")
+							<div class="dropdown" id="cart-partial">
 							</div>
 							<!-- /Cart -->
 							<!-- Menu Toogle -->
@@ -284,6 +283,7 @@
 	<script src="~/lib/bootbox.js/bootbox.min.js"></script>
 	<script src="~/lib/notify/notify.min.js"></script>
 	<script src="~/lib/twb-pgination.js"></script>
+	<script src="~/js/cart.js"></script>
 	@RenderSection("Scripts", false)
 </body>
 </html>

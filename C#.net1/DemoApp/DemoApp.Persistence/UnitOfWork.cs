@@ -13,9 +13,13 @@ namespace Persistence
 			_context = context;
 		}
 
-		public Task<IDbContextTransaction> BeginTransactionAsync()
+		public async Task<IDbContextTransaction> BeginTransactionAsync()
 		{
-			throw new NotImplementedException();
+			if (_context.Database.CurrentTransaction != null)
+			{
+				return null;
+			}
+			return await _context.Database.BeginTransactionAsync();
 		}
 
 		public async Task SaveChangeAsync()
