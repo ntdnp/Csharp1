@@ -1,0 +1,25 @@
+﻿@using DemoApp.Domain.Models;
+@using DemoApp.Domain.Models.Products;
+@model GenericData<ProductViewModel>
+
+@foreach (var item in Model.Data)
+{
+        <tr data-count="@Model.Count" class="text-center total-count">
+
+        <td> @item.ProductName</td>
+        <td> @item.CategoryName</td>
+        <td> @item.Price</td>
+        <td> @item.DiscountPrice</td>
+
+        <td class="text-center">
+
+            <a class="btn default btn-xs purple" href="/" title="Update"> <span class="glyphicon glyphicon-edit"></span></a>
+
+            <a class="btn default btn-xs green" href="/" title="Watch Images"><span class="glyphicon glyphicon-list-alt"></span></a>
+
+            <a class="btn default btn-xs red" href="/" title="Delete">  <span class="glyphicon glyphicon-trash"></span></a>
+
+        </td>
+
+    </tr>
+}

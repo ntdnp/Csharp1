@@ -127,6 +127,52 @@ namespace Application.Products
 			return result;
 		}
 
+		public async Task CreateProduct(ProductCreateViewModel model)
+		{
+			using var transaction = await _unitOfWork.BeginTransactionAsync();
+			try
+			{
+				var product = new Product
+				{
+					Name = model.ProductName,
+					Description = model.Description,
+					Detail = model.Detail,
+					Price = model.Price,
+					DiscountPrice = model.DiscountPrice,
+					Quantity = model.Quantity,
+					CategoryId = model.CategoryId,
+					Id = Guid.NewGuid(),
+					CreatedDate = DateTime.Now,
+					Status = EntityStatus.Active,
+				};
+				_productRepository.Add(product);
+				await _unitOfWork.SaveChangeAsync();
+				foreach (var item in model.ImageUrls)
+				{
+					var image = new ProductImage
+					{
+						Id = Guid.NewGuid(),
+						ImageLink = item,
+						CreatedDate = product.CreatedDate,
+						Status = EntityStatus.Active,
+						ProductId = product.Id,
+						Alt = product.Name
+
+					};
+					_imageRepository.Add(image);
+					await _unitOfWork.SaveChangeAsync();
+				}
+				await transaction.CommitAsync();
+			}
+			catch (Exception ex)
+			{
+				await transaction.RollbackAsync();
+				throw new Exception(ex.Message);
+			}
+
+		}
+
+
 		private async Task<string> GetCategory(Guid categoryId)
 		{
 			var category = await _categoryRepository.FindById(categoryId);
