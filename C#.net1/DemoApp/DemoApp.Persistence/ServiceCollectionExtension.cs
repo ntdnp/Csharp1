@@ -28,10 +28,6 @@ namespace DemoApp.Persistence
 
 		public static void AddCustomIdentity(this IServiceCollection serviceCollection)
 		{
-			serviceCollection.AddIdentityCore<IdentityUser>()
-							 .AddRoles<IdentityRole>()
-							 .AddEntityFrameworkStores<ApplicationDbContext>();
-
 			serviceCollection.Configure<IdentityOptions>(options =>
 			{
 				options.Password.RequiredLength = 5;

@@ -2,6 +2,9 @@ using DemoApp.Domain.Abstractions;
 using DemoApp.Persistence;
 using DemoApp.Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DemoApp.
+	Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +23,14 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddCustomIdentity();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(option =>
 				{
 					option.LoginPath = "/account/login";
 					option.AccessDeniedPath = "/Account/AccessDenied";
 					option.Cookie.HttpOnly = true;
-					option.Cookie.Expiration = TimeSpan.FromHours(1);
+					option.ExpireTimeSpan = TimeSpan.FromHours(1);
 				});
 var app = builder.Build();
 
